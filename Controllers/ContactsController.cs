@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using capstone.Data;
 using capstone.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace capstone.Controllers
@@ -14,7 +11,9 @@ namespace capstone.Controllers
     [ApiController]
     public class ContactsController : ControllerBase
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
+
+        private string UserId => HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
         public ContactsController(ApplicationDbContext context)
         {
@@ -24,43 +23,42 @@ namespace capstone.Controllers
         [HttpGet]
         public IEnumerable<Contact> Get()
         {
-            var userid = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            return _context.Contacts.Where(c => c.UserId == userid);
+            return _context.Contacts.Where(c => c.UserId == UserId).ToList();
+        }
+
+        [HttpGet("GetAll")]
+        public IEnumerable<Contact> GetAll()
+        {
+            return _context.Contacts.ToList();
         }
 
         [HttpGet("{id}")]
         public Contact Get(int id)
         {
-            var userid = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            return _context.Contacts.Where(c => c.UserId == userid && c.Id == id).FirstOrDefault();
+            return _context.Contacts.FirstOrDefault(c => c.UserId == UserId && c.Id == id);
         }
 
         [HttpPost]
-
-        public Contact Post([FromBody]Contact contact)
+        public Contact Post([FromBody] Contact contact)
         {
-            var userid = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            contact.UserId = userid; //assioc w/ front end
+            contact.UserId = UserId; //assioc w/ front end
             _context.Contacts.Add(contact);
             _context.SaveChanges();
             return contact;
         }
 
-        [HttpDelete("{id}")] 
+        [HttpDelete("{id}")]
         public Contact Delete(int id)
         {
-            var userid = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var contact = _context.Contacts.FirstOrDefault(c => c.UserId == userid && c.Id == id);
-            if(contact == null)
+            var contact = _context.Contacts.FirstOrDefault(c => c.UserId == UserId && c.Id == id);
+            if (contact == null)
             {
                 return null;
             }
+
             _context.Contacts.Remove(contact);
             _context.SaveChanges();
             return contact;
-      
-
         }
     }
 }
