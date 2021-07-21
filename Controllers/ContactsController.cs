@@ -47,6 +47,24 @@ namespace capstone.Controllers
             return contact;
         }
 
+        [HttpPut("{id}")]
+        public Contact Put([FromBody] Contact contact)
+        {
+            var current = _context.Contacts.FirstOrDefault(c => c.Id == contact.Id);
+
+            if (current == null)
+                return null;
+
+            _context.Entry(current)
+                .CurrentValues
+                .SetValues(contact);
+
+            _context.Update(current);
+            _context.SaveChanges();
+
+            return current;
+        }
+
         [HttpDelete("{id}")]
         public Contact Delete(int id)
         {
