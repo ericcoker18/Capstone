@@ -12,6 +12,7 @@ import { ContactAddComponent } from './contact-add/contact-add.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import {AppRoutingModule} from "./app-routing/app-routing.module";
 import {MaterialModule} from "./material/material.module";
+import { EditComponent } from './edit/edit.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import {MaterialModule} from "./material/material.module";
     NavMenuComponent,
     HomeComponent,
     ContactAddComponent,
+    EditComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
