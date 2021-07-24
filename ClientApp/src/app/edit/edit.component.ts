@@ -30,7 +30,7 @@ export class EditComponent implements OnInit {
 
   contact: IContact;
 
-  @Input() contact: IContact;
+  
   constructor(private contactservice: ContactService, private formbuilder: FormBuilder, private activatesRoute: ActivatedRoute) {
 
     this.form = this.BuildForm();
