@@ -3,7 +3,7 @@
     <input class="form-control" placeholder="filter" (keyup)="filterTable($event.target.value)"/>
   </div>
 </div>
-<table mat-table matSort [dataSource]="dataSource" class="mat=elavation-z8" width="100%">
+<table mat-table matSort [dataSource]="dataSource" class="mat=elavation-z8" style="width: 100%">
 
   <ng-container matColumnDef="id">
     <th mat-header-cell mat-sort-header *matHeaderCellDef>Id<th>
