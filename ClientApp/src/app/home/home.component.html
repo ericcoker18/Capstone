@@ -1,10 +1,32 @@
+<div class="row">
+  <div class="col-md-3">
+    <input class="form-control" placeholder="filter" (keyup)="filterTable($event.target.value)"/>
+  </div>
+</div>
 <mat-table matSort [dataSource]="dataSource" class="mat=elavation-z8">
+
+  <ng-container matColumnDef="id">
+    <mat-header-cell mat-sort-header *matHeaderCellDef>Id</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <a [routerLink]="['editcontact',element.id]">{{element.id}}</a>
+    </mat-cell>
+  </ng-container>
+
   <ng-container [matColumnDef]="column.columnDef" *ngFor="let column of columns">
     <mat-header-cell mat-sort-header *matHeaderCellDef>{{column.header}}</mat-header-cell>
     <mat-cell *matCellDef="let element">
-      {{column.cell === undefined ? element[column.columnDef]: column.cell(element)}}
+      {{column.cell === undefined ? element[column.columnDef] : column.cell(element)}}
     </mat-cell>
+  </ng-container>
 
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <button mat-icon-button matTooltip="Delete" matTooltipPosition="left" color="primary"
+              (click)="delete(element.id)">
+        <mat-icon>remove</mat-icon>
+      </button>
+    </mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
