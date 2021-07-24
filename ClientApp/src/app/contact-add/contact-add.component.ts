@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Form, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ContactService } from '../contact.service';
 import { IContact } from '../icontact';
+import {ContactTypes} from "../contact-types";
 
 @Component({
   selector: 'app-contact-add',
@@ -17,6 +18,7 @@ export class ContactAddComponent implements OnInit {
   secondaryphonenumber: FormControl;
   address: FormControl;
   type: FormControl;
+  types: any[] = ContactTypes.getContactTypes();
 
   form: FormGroup;
 
@@ -32,9 +34,9 @@ export class ContactAddComponent implements OnInit {
     this.lastname = new FormControl('', Validators.required);
     this.emailaddress = new FormControl('', Validators.required);
     this.primaryphonenumber = new FormControl('', Validators.required);
-    this.secondaryphonenumber = new FormControl('', Validators.required);
+    this.secondaryphonenumber = new FormControl('');
     this.address = new FormControl('', Validators.required);
-    this.type = new FormControl(0 , Validators.required);
+    this.type = new FormControl(0);
 
     return this.formbuilder.group({
       firstname: this.firstname,
@@ -47,7 +49,7 @@ export class ContactAddComponent implements OnInit {
     });
   }
 
-  Save(): void {
+  async Save(): Promise<void> {
     const newcontact: IContact = {
       firstName: this.firstname.value,
       lastName: this.lastname.value,
@@ -57,7 +59,7 @@ export class ContactAddComponent implements OnInit {
       address: this.address.value,
       type: this.type.value
     }
-    const contact = this.contactservice.addContact(newcontact);
+    const contact = await this.contactservice.addContact(newcontact);
     console.log(contact);
   }
 

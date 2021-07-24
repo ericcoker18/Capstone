@@ -8,7 +8,7 @@ import {IContact} from './icontact';
 export class ContactService {
 
   private readonly URL: string;
-  private readonly CONTROLLER = 'contacts'
+  private readonly CONTROLLER = 'api/contacts'
   constructor(private httpClient: HttpClient, @Inject('BASE_URL')private baseUrl: string) {
     this.URL = `${this.baseUrl}${this.CONTROLLER}`
   }

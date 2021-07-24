@@ -1,16 +1,30 @@
-<form [formGroup]="form">
-  <label>firstname</label>
-  <input class="form-control" formControlName="firstname" />
-  <label>lastname</label>
-  <input class="form-control" formControlName="lastname" />
-  <label>emailaddress</label>
-  <input class="form-control" formControlName="emailaddress" />
-  <label>primaryphonenumber</label>
-  <input class="form-control" formControlName="primaryphonenumber" />
-  <label>secondaryphonenumber</label>
-  <input class="form-control" formControlName="secondaryphonenumber" />
-  <label>address</label>
-  <input class="form-control" formControlName="address" />
+<div style="margin: auto; width: 75%">
+  <form [formGroup]="form">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>First Name</label>
+          <input class="form-control" formControlName="firstname"/>
+          <label class="alert alert-danger mt-1" *ngIf="!firstname.value && firstname.touched">First Name is
+            required</label>
+        </div>
+      </div>
+    </div>
+    <label>lastname</label>
+    <input class="form-control" formControlName="lastname"/>
+    <label>emailaddress</label>
+    <input class="form-control" formControlName="emailaddress"/>
+    <label>primaryphonenumber</label>
+    <input class="form-control" formControlName="primaryphonenumber"/>
+    <label>secondaryphonenumber</label>
+    <input class="form-control" formControlName="secondaryphonenumber"/>
+    <label>address</label>
+    <input class="form-control" formControlName="address"/>
+    <label>Type</label>
+    <mat-select class="form-control" formControlName="type">
+      <mat-option *ngFor="let t of types" [value]="t.typeValue">{{t.caption}}</mat-option>
+    </mat-select>
 
-  <button (click)="Save()" [disabled]="!form.valid">Save</button>
-</form>
+    <button class="btn btn-primary mt-1" (click)="Save()" [disabled]="!form.valid">Save</button>
+  </form>
+</div>
