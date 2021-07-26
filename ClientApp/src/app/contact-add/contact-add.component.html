@@ -52,5 +52,6 @@
       <mat-option *ngFor="let t of types" [value]="t.typeValue" aria-describedby="addon-wrapping">{{t.caption}} </mat-option>
     </mat-select>
     <button class="btn btn-primary mt-4" (click)="Save()" [disabled]="!form.valid">Save</button>
+      <button class="ml-2 btn btn-primary mt-4" (click)="SaveAndNew()" [disabled]="!form.valid">Save And New</button>
   </form>
 </div>
