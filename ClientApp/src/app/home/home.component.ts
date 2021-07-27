@@ -2,12 +2,12 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-import {element} from 'protractor';
 import {ContactService} from '../contact.service';
 import {IColumn} from '../icolumn';
 import {IContact} from '../icontact';
 import {ContactTypes} from "../contact-types";
-import {Router} from "@angular/router";
+import {AuthorizeService} from "../../api-authorization/authorize.service";
+import {take} from "rxjs/operators";
 
 @Component({
   selector: 'app-home',
@@ -31,14 +31,15 @@ export class HomeComponent implements OnInit {
   dataSource: MatTableDataSource<IContact>;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-
-  constructor(private contactService: ContactService, private router: Router) {
+  isAuthenticated = false;
+  constructor(private contactService: ContactService, private authorize: AuthorizeService) {
     this.displayedColumns.unshift('id')
     this.displayedColumns.push('actions');
   }
 
   async ngOnInit() {
     await this.loadData();
+    this.isAuthenticated = await this.authorize.isAuthenticated().pipe(take(1)).toPromise();
   }
 
   async loadData() {
