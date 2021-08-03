@@ -68,7 +68,7 @@ export class EditComponent implements OnInit {
     });
   }
   
-  async Update(userId): Promise<void> {
+  async Update(): Promise<void> {
     const newcontact: IContact = {
       id: this.contact.id,
       firstName: this.firstname.value,
@@ -87,6 +87,5 @@ export class EditComponent implements OnInit {
     catch (err) {
       console.log(err);
     }
-    
   } 
 } 
