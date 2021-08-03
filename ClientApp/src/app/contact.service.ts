@@ -34,6 +34,6 @@ export class ContactService {
   async deleteContact(contact: IContact): Promise<IContact> {
     const url = `${this.URL}/${contact.id}`;
 
-    return this.httpClient.delete<IContact>(this.URL).toPromise();
+    return this.httpClient.delete<IContact>(url).toPromise();
   }
 }

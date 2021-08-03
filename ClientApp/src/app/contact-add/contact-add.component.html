@@ -1,30 +1,57 @@
-<div style="margin: auto; width: 75%">
+<div style="margin: auto; width: 50%">
   <form [formGroup]="form">
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
-          <label>First Name</label>
-          <input class="form-control" formControlName="firstname"/>
-          <label class="alert alert-danger mt-1" *ngIf="!firstname.value && firstname.touched">First Name is
-            required</label>
+          <!--FIRST NAME-->
+          <div class="row g-2"></div>
+          <input class="form-control" formControlName="firstname" placeholder="First Name" />
+          <label class="alert alert-danger mt-1" *ngIf="!firstname.value && firstname.touched">
+            First Name is
+            required
+          </label>
         </div>
       </div>
+      <!--LAST NAME-->
+      <div class="col-md-6">
+        <input class="form-control" formControlName="lastname" placeholder="Last Name" />
+        <label class="alert alert-danger mt-1" *ngIf="!lastname.value && lastname.touched">
+          Last Name is
+          required
+        </label>
+      </div>
     </div>
-    <label>lastname</label>
-    <input class="form-control" formControlName="lastname"/>
-    <label>emailaddress</label>
-    <input class="form-control" formControlName="emailaddress"/>
-    <label>primaryphonenumber</label>
-    <input class="form-control" formControlName="primaryphonenumber"/>
-    <label>secondaryphonenumber</label>
-    <input class="form-control" formControlName="secondaryphonenumber"/>
-    <label>address</label>
-    <input class="form-control" formControlName="address"/>
-    <label>Type</label>
-    <mat-select class="form-control" formControlName="type">
-      <mat-option *ngFor="let t of types" [value]="t.typeValue">{{t.caption}}</mat-option>
+    <!--Email Address-->
+    <label></label>
+    <input class="form-control" formControlName="emailaddress" placeholder="Email Address" />
+    <label class="alert alert-danger mt-1" *ngIf="!emailaddress.value && emailaddress.touched">
+      Email Address is
+      required
+    </label>
+    <!--Primary Phone Number-->
+    <label></label>
+    <input class="form-control" formControlName="primaryphonenumber" placeholder="Primary Phone Number" />
+    <label class="alert alert-danger mt-1" *ngIf="!primaryphonenumber.value && primaryphonenumber.touched">
+      Primary Phone Number is
+      required
+    </label>
+    <!--Secondary Phone Number-->
+    <label></label>
+    <input class="form-control" formControlName="secondaryphonenumber" placeholder="Secondary Phone Number" />
+    <!--Address-->
+    <label></label>
+    <input class="form-control" formControlName="address" placeholder="Address" />
+    <label class="alert alert-danger mt-1" *ngIf="!address.value && address.touched">
+      Address is
+      required
+    </label>
+    <!--Type-->
+    <label class="mt-5"></label>
+    <mat-select class="form-control" formControlName="type" id="drop-downmenu">
+      <label for="drop-downmenu">Type of Contact</label>
+      <mat-option *ngFor="let t of types" [value]="t.typeValue" aria-describedby="addon-wrapping">{{t.caption}} </mat-option>
     </mat-select>
-
-    <button class="btn btn-primary mt-1" (click)="Save()" [disabled]="!form.valid">Save</button>
+    <button class="btn btn-primary mt-4" (click)="Save()" [disabled]="!form.valid">Save</button>
+      <button class="ml-2 btn btn-primary mt-4" (click)="SaveAndNew()" [disabled]="!form.valid">Save And New</button>
   </form>
 </div>
