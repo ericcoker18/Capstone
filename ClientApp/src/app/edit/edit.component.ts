@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ContactTypes } from '../contact-types';
 import { ContactService } from '../contact.service';
 import { IContact } from '../icontact';
@@ -14,8 +14,6 @@ import { IContact } from '../icontact';
   styleUrls: ['./edit.component.css']
 })
 export class EditComponent implements OnInit {
-
-  x = "test";
 
   firstname: FormControl;
   lastname: FormControl;
@@ -30,8 +28,7 @@ export class EditComponent implements OnInit {
 
   contact: IContact;
 
-  @Input() contact: IContact;
-  constructor(private contactservice: ContactService, private formbuilder: FormBuilder, private activatesRoute: ActivatedRoute) {
+  constructor(private contactservice: ContactService, private formbuilder: FormBuilder, private activatesRoute: ActivatedRoute, private router: Router) {
 
     this.form = this.BuildForm();
   }
@@ -40,6 +37,15 @@ export class EditComponent implements OnInit {
     const id = +this.activatesRoute.snapshot.params['id'];
     this.contact = await this.contactservice.getContact(id);
     this.firstname.setValue(this.contact.firstName);
+    this.lastname.setValue(this.contact.lastName);
+    this.emailaddress.setValue(this.contact.emailAddress);
+    this.primaryphonenumber.setValue(this.contact.primaryPhoneNumber);
+    this.secondaryphonenumber.setValue(this.contact.secondaryPhoneNumber);
+    this.address.setValue(this.contact.address);
+    this.type.setValue(this.contact.type);
+
+    console.log(this.contact);
+    console.log(id);
   }
 
   BuildForm(): FormGroup {
@@ -61,5 +67,26 @@ export class EditComponent implements OnInit {
       type: this.type
     });
   }
+  
+  async Update(userId): Promise<void> {
+    const newcontact: IContact = {
+      id: this.contact.id,
+      firstName: this.firstname.value,
+      lastName: this.lastname.value,
+      emailAddress: this.emailaddress.value,
+      primaryPhoneNumber: this.primaryphonenumber.value,
+      secondaryPhoneNumber: this.secondaryphonenumber.value,
+      address: this.address.value,
+      type: this.type.value
+    }
 
-}
+    try {
+      const contact = await this.contactservice.editContact(newcontact);
+      this.router.navigate(['/']);
+    }
+    catch (err) {
+      console.log(err);
+    }
+    
+  } 
+} 
