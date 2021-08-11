@@ -28,6 +28,8 @@ export class EditComponent implements OnInit {
 
   contact: IContact;
 
+  loadedContact = false;
+
   constructor(private contactservice: ContactService, private formbuilder: FormBuilder, private activatesRoute: ActivatedRoute, private router: Router) {
 
     this.form = this.BuildForm();
@@ -36,6 +38,10 @@ export class EditComponent implements OnInit {
   async ngOnInit() {
     const id = +this.activatesRoute.snapshot.params['id'];
     this.contact = await this.contactservice.getContact(id);
+
+    if(this.contact != null) {
+      this.loadedContact = true;
+    }
     this.firstname.setValue(this.contact.firstName);
     this.lastname.setValue(this.contact.lastName);
     this.emailaddress.setValue(this.contact.emailAddress);
@@ -67,7 +73,7 @@ export class EditComponent implements OnInit {
       type: this.type
     });
   }
-  
+
   async Update(): Promise<void> {
     const newcontact: IContact = {
       id: this.contact.id,
@@ -87,5 +93,5 @@ export class EditComponent implements OnInit {
     catch (err) {
       console.log(err);
     }
-  } 
-} 
+  }
+}
